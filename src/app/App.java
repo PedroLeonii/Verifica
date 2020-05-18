@@ -19,14 +19,27 @@ public class App {
     }
 
     private static void producer(){
-        
-        while (true) {
-            if (product.size() < maxSize) {
-                
-            } else {
-                
-            }
+        Random random = new Random();
+       try {
+           lock.lock();
+
+            while (true) {
+                if (product.size() < maxSize) {
+
+                    product.add(random.nextInt(100));
+            
+                } else {
+                    System.out.println("magazzino pieno....");
+                    cond.await();
+                }
         }
+       } catch (Exception e) {
+           System.out.println(e);
+       } 
+       finally{
+            lock.unlock();
+       }
+        
     }
     private static void consumer(){
         
